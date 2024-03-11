@@ -12,4 +12,4 @@ RUN mvn -f /usr/src/app/pom.xml clean package
 FROM openjdk:11-jre-slim 
 COPY --from=build /usr/src/app/target/*.jar /usr/app/demo-0.0.1-SNAPSHOT.jar  
 EXPOSE 8080  
-ENTRYPOINT ["java","-jar","/usr/local/lib/demo.jar"] 
+CMD ["java","-jar","/usr/app/demo-0.0.1-SNAPSHOT.jar"]  
