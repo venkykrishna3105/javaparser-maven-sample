@@ -4,57 +4,65 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <!-- This is often your domain name (reversed.)  -->
-    <groupId>com.yourorganization</groupId>
-    <!-- The name of this project (actually, the name of the artifact, which is the thing that this project produces. A jar in this case.) -->
-    <artifactId>javaparser-maven-sample</artifactId>
-    <!-- The version of this project. SNAPSHOT means "we're still working on it" -->
+    <groupId>org.kth</groupId>
+    <artifactId>github-action-maven-tutorial</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <properties>
-        <!-- Tell Maven we want to use Java 8 -->
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
-        <!-- Tell Maven to treat all source files as UTF-8 -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.7</maven.compiler.source>
+        <maven.compiler.target>1.7</maven.compiler.target>
     </properties>
 
-    <dependencies>
-        <!-- Here are all your dependencies. Currently only one. These are automatically downloaded from https://mvnrepository.com/ -->
-        <dependency>
-            <groupId>com.github.javaparser</groupId>
-            <artifactId>javaparser-core</artifactId>
-            <version>3.25.9</version>
-        </dependency>
-    </dependencies>
-
-    <!-- This blob of configuration tells Maven to make the jar executable. You can run it with:
-    mvn clean package
-    java -jar target/javaparser-maven-sample-1.0-SNAPSHOT-shaded.jar
-    -->
     <build>
         <plugins>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-shade-plugin</artifactId>
-                <version>3.5.2</version>
+                <artifactId>maven-assembly-plugin</artifactId>
                 <executions>
                     <execution>
+                        <phase>package</phase>
                         <goals>
-                            <goal>shade</goal>
+                            <goal>single</goal>
                         </goals>
                         <configuration>
-                            <shadedArtifactAttached>true</shadedArtifactAttached>
-                            <transformers>
-                                <transformer
-                                        implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>com.yourorganization.maven_sample.LogicPositivizer</mainClass>
-                                </transformer>
-                            </transformers>
+                            <archive>
+                                <manifest>
+                                    <mainClass>
+                                        App
+                                    </mainClass>
+                                </manifest>
+                            </archive>
+                            <descriptorRefs>
+                                <descriptorRef>jar-with-dependencies</descriptorRef>
+                            </descriptorRefs>
                         </configuration>
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.19.1</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.junit.platform</groupId>
+                        <artifactId>junit-platform-surefire-provider</artifactId>
+                        <version>1.1.0</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.junit.jupiter</groupId>
+                        <artifactId>junit-jupiter-engine</artifactId>
+                        <version>5.1.0</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
         </plugins>
     </build>
+
+    <dependencies>
+
+    </dependencies>
+
 </project>
