@@ -34,6 +34,6 @@ jobs:
 
     - name: Build and push to dockerhub
       run: |
-        docker build . --file Dockerfile --tag venkat1491/luckyguy31:${{ github.sha }}
+        docker build . --tag venkat1491/lakksrocks31:${{ github.sha }}
         docker push venkat1491/lakksrocks31:${{ github.sha }}}
          
